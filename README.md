@@ -19,8 +19,8 @@ Sigue estos pasos para poner en marcha el proyecto en tu entorno local.
 
 1.  **Clonar el repositorio (si aplica):**
     ```bash
-    git clone <URL_DE_TU_REPOSITORIO>
-    cd <nombre_de_tu_proyecto>
+    git clone https://github.com/toni02022006/laravel-mid-level-project-task-api-Anthoni-Otiniano.git
+    cd Prueba
     ```
 
 2.  **Instalar dependencias de Composer:**
