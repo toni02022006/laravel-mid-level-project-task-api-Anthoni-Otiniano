@@ -1,124 +1,146 @@
-# laravel-mid-level-project-task-api-Anthoni-Otiniano
+# API RESTful de Gestión de Proyectos y Tareas
 
-API RESTful de Gestión de Proyectos y Tareas
-Este es un proyecto de prueba técnica para desarrollar una API RESTful con Laravel para la gestión de proyectos y tareas.
+Esta API RESTful está diseñada para la gestión eficiente de proyectos y las tareas asociadas a ellos. Ofrece un conjunto de endpoints validados para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre ambas entidades.
 
-Características Principales
-Relación 1:N entre Proyectos y Tareas: Un proyecto puede tener múltiples tareas.
-Validaciones Estrictas: Uso de Form Requests para asegurar la integridad de los datos.
-Filtros Dinámicos Avanzados: Permite buscar y filtrar proyectos y tareas por varios criterios.
-Auditoría de Acciones: Registra automáticamente las operaciones de creación, actualización y eliminación.
-Documentación de API: Generada automáticamente con L5-Swagger.
-Monitoreo de Aplicación: Integración con Laravel Telescope para depuración y monitoreo.
-Estructura Limpia, Modular y Profesional: Sigue las mejores prácticas de Laravel.
-Duración Estimada
-Este proyecto está diseñado para ser completado en un máximo de 2 horas (enfocado en las funcionalidades básicas, la extensión completa podría tomar más).
+## 🚀 Tecnologías Utilizadas
 
-Entidades y Campos
-Proyecto (Project)
-Campo	Tipo	Validaciones
-id	UUID	Requerido, Clave Primaria
-name	String	Requerido, Único, 3-100 caracteres
-description	Text	Opcional
-status	String	Requerido (valores: active, inactive)
-created_at	Datetime	Automático
-updated_at	Datetime	Automático
-Tarea (Task)
-Campo	Tipo	Validaciones
-id	UUID	Requerido, Clave Primaria
-project_id	UUID	Requerido, Clave Foránea (projects.id)
-title	String	Requerido, 3-255 caracteres
-description	Text	Opcional
-status	String	Requerido (valores: pending, in_progress, done)
-priority	String	Requerido (valores: low, medium, high)
-due_date	Date	Requerido, fecha válida, no puede ser anterior a hoy
-created_at	Datetime	Automático
-updated_at	Datetime	Automático
-Endpoints de la API
-Todos los endpoints están prefijados con /api/.
+* **Framework:** Laravel (versión 10.x/11.x)
+* **Lenguaje de Programación:** PHP (versión 8.x)
+* **Base de Datos:** MySQL
+* **ORM:** Eloquent
+* **Validación de Datos:** Laravel Form Requests
+* **Identificadores Únicos:** UUIDs
+* **Herramienta de Pruebas:** Postman
+* **Documentación API:** L5-Swagger (OpenAPI/Swagger UI)
 
-Proyectos (/api/projects)
-GET /api/projects: Listado de proyectos con filtros dinámicos (por status, name, date_range).
-POST /api/projects: Crear un nuevo proyecto.
-GET /api/projects/{id}: Obtener detalles de un proyecto específico.
-PUT /api/projects/{id}: Actualizar un proyecto existente.
-DELETE /api/projects/{id}: Eliminar un proyecto (se implementa un borrado físico, el soft delete es opcional y requeriría ajustes en el modelo y migración).
-Tareas (/api/tasks)
-GET /api/tasks: Listado de tareas con filtros dinámicos (por status, priority, due_date, project_id).
-POST /api/tasks: Crear una nueva tarea.
-GET /api/tasks/{id}: Obtener detalles de una tarea específica.
-PUT /api/tasks/{id}: Actualizar una tarea existente.
-DELETE /api/tasks/{id}: Eliminar una tarea.
-Requisitos del Sistema
-Para ejecutar este proyecto, necesitas lo siguiente:
+## 📦 Instalación y Configuración
 
-PHP: Versión 8.1 o superior.
-Composer: Gestor de dependencias de PHP.
-Base de Datos: MySQL (recomendado), PostgreSQL, SQLite, etc.
-Node.js y npm: Necesario para compilar los assets de Laravel Telescope (aunque la API funcionará sin ellos, el dashboard de Telescope no se verá correctamente).
-Guía de Instalación Paso a Paso
-Sigue estos pasos para poner en marcha el proyecto:
+Sigue estos pasos para poner en marcha el proyecto en tu entorno local.
 
-Clonar el Repositorio:
+1.  **Clonar el repositorio (si aplica):**
+    ```bash
+    git clone <URL_DE_TU_REPOSITORIO>
+    cd <nombre_de_tu_proyecto>
+    ```
 
-Bash
+2.  **Instalar dependencias de Composer:**
+    ```bash
+    composer install
+    ```
 
-git clone https://github.com/tu-usuario/laravel-mid-level-project-task-api.git
-cd laravel-mid-level-project-task-api
-(Asegúrate de reemplazar tu-usuario con tu usuario de GitHub si el proyecto está en un repositorio real).
+3.  **Configurar el archivo `.env`:**
+    * Copia el archivo de ejemplo:
+        ```bash
+        cp .env.example .env
+        ```
+    * Genera la clave de aplicación:
+        ```bash
+        php artisan key:generate
+        ```
+    * Edita el archivo `.env` y configura tus credenciales de base de datos (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
 
-Instalar Dependencias de Composer:
+4.  **Ejecutar las migraciones de la base de datos:**
+    Esto creará las tablas `projects` y `tasks` en tu base de datos.
+    ```bash
+    php artisan migrate
+    ```
 
-Bash
+5.  **Iniciar el servidor de desarrollo de Laravel:**
+    ```bash
+    php artisan serve
+    ```
+    La API estará disponible en `http://127.0.0.1:8000`.
 
-composer install
-Configurar el Archivo de Entorno (.env):
-Copia el archivo de ejemplo y genera la clave de la aplicación:
+## ⚙️ Estructura de la Base de Datos
 
-Bash
+La base de datos consta de dos tablas principales relacionadas: `projects` y `tasks`.
 
-cp .env.example .env
-php artisan key:generate
-Abre el archivo .env y configura los detalles de tu base de datos:
+### `projects` Tabla
 
-Fragmento de código
+* `id` (UUID): Clave primaria única.
+* `name` (string): Nombre del proyecto (requerido, único, 3-100 caracteres).
+* `description` (text): Descripción del proyecto (opcional).
+* `status` (string): Estado del proyecto ("active", "inactive").
+* `created_at` (timestamp)
+* `updated_at` (timestamp)
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=nombre_de_tu_base_de_datos # <--- ¡CAMBIA ESTO!
-DB_USERNAME=tu_usuario_de_base_de_datos # <--- ¡CAMBIA ESTO!
-DB_PASSWORD=tu_contraseña_de_base_de_datos # <--- ¡CAMBIA ESTO!
-Ejecutar Migraciones de Base de Datos:
-Esto creará todas las tablas necesarias, incluyendo las de projects, tasks, telescope_entries (para Telescope) y audits (para el sistema de auditoría).
+### `tasks` Tabla
 
-Bash
+* `id` (UUID): Clave primaria única para cada tarea.
+* `project_id` (UUID): Clave foránea que referencia el `id` de `projects` (requerido).
+* `title` (string): Título de la tarea (requerido, 3-100 caracteres).
+* `description` (text): Descripción de la tarea (opcional).
+* `status` (string): Estado de la tarea ("pending", "in_progress", "done").
+* `priority` (string): Prioridad de la tarea ("low", "medium", "high").
+* `due_date` (date): Fecha de vencimiento (requerido, no puede ser una fecha pasada).
+* `created_at` (timestamp)
+* `updated_at` (timestamp)
 
-php artisan migrate
-Instalar y Compilar Assets de Node.js (para Telescope):
+## 📋 Endpoints de la API
 
-Bash
+Todos los endpoints base están bajo `/api`.
 
-npm install
-npm run dev # O `npm run build` para producción
-Generar Documentación de Swagger:
+### Proyectos (`/api/projects`)
 
-Bash
+| Método | Ruta               | Descripción                                            | Request Body (JSON) | Response (JSON)                                |
+| :----- | :----------------- | :----------------------------------------------------- | :------------------ | :--------------------------------------------- |
+| `POST` | `/api/projects`    | Crea un nuevo proyecto.                                | `name`, `description` (opcional), `status` | `201 Created` + Objeto `Project`               |
+| `GET`  | `/api/projects`    | Lista todos los proyectos.                             | _Ninguno_           | `200 OK` + Array de `Project`s                 |
+| `GET`  | `/api/projects/{id}` | Obtiene los detalles de un proyecto específico.      | _Ninguno_           | `200 OK` + Objeto `Project` o `404 Not Found`  |
+| `PUT`  | `/api/projects/{id}` | Actualiza un proyecto existente.                       | `name`, `description` (opcional), `status` | `200 OK` + Objeto `Project` actualizado o `422 Unprocessable Entity` |
+| `DELETE` | `/api/projects/{id}` | Elimina un proyecto.                                   | _Ninguno_           | `204 No Content` o `404 Not Found`             |
 
-php artisan l5-swagger:generate
-Iniciar el Servidor de Desarrollo de Laravel:
+**Filtros para `GET /api/projects`:**
+* `?status=active` o `?status=inactive`
+* `?name=mi_nombre_parcial`
+* Combinación: `?status=active&name=mi_nombre`
 
-Bash
+### Tareas (`/api/tasks`)
 
-php artisan serve
-La API estará disponible en http://127.0.0.1:8000.
+| Método | Ruta               | Descripción                                            | Request Body (JSON) | Response (JSON)                                |
+| :----- | :----------------- | :----------------------------------------------------- | :------------------ | :--------------------------------------------- |
+| `POST` | `/api/tasks`       | Crea una nueva tarea.                                  | `project_id`, `title`, `description` (opcional), `status`, `priority`, `due_date` | `201 Created` + Objeto `Task`                  |
+| `GET`  | `/api/tasks`       | Lista todas las tareas.                                | _Ninguno_           | `200 OK` + Array de `Task`s                    |
+| `GET`  | `/api/tasks/{id}` | Obtiene los detalles de una tarea específica.          | _Ninguno_           | `200 OK` + Objeto `Task` o `404 Not Found`     |
+| `PUT`  | `/api/tasks/{id}` | Actualiza una tarea existente.                         | `project_id`, `title`, `description` (opcional), `status`, `priority`, `due_date` | `200 OK` + Objeto `Task` actualizado o `422 Unprocessable Entity` |
+| `DELETE` | `/api/tasks/{id}` | Elimina una tarea.                                     | _Ninguno_           | `204 No Content` o `404 Not Found`             |
 
-Cómo Acceder a la Documentación de Swagger
-Una vez que la aplicación esté en funcionamiento, puedes ver la documentación interactiva de la API (Swagger UI) en:
-http://127.0.0.1:8000/api/documentation
+**Filtros para `GET /api/tasks`:**
+* `?status=pending`, `?status=in_progress` o `?status=done`
+* `?priority=low`, `?priority=medium` o `?priority=high`
+* `?due_date=YYYY-MM-DD`
+* `?project_id=UUID_DEL_PROYECTO`
+* Combinaciones (ej. `?status=pending&priority=high`)
 
-Aquí encontrarás todos los endpoints, sus parámetros esperados, respuestas y modelos de datos.
+## 📄 Documentación Interactiva (Swagger UI)
 
-Cómo Ver Laravel Telescope
-Laravel Telescope proporciona un panel de control elegante para monitorear las solicitudes, consultas a la base de datos, tareas en cola, etc. Accede a él en:
-http://127.0.0.1:8000/telescope
+Para una vista interactiva de la API, puedes acceder a la interfaz de Swagger UI.
+
+1.  **Instala el paquete L5-Swagger:**
+    ```bash
+    composer require "darkaonline/l5-swagger"
+    ```
+2.  **Publica la configuración y los assets:**
+    ```bash
+    php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+    ```
+3.  **Genera el archivo de documentación OpenAPI:**
+    ```bash
+    php artisan l5-swagger:generate
+    ```
+4.  **Accede a la documentación en tu navegador:**
+    ```
+    [http://127.0.0.1:8000/api/documentation](http://127.0.0.1:8000/api/documentation)
+    ```
+
+**Nota:** Para que la documentación interactiva muestre los detalles de los parámetros, modelos y respuestas, deberás añadir anotaciones PHPDoc (utilizando `zircote/swagger-php`) en tus controladores, modelos y Form Requests. (Esto sería el siguiente paso si deseas documentar más a fondo).
+
+## 🚀 Pruebas con Postman
+
+Se recomienda utilizar Postman (o una herramienta similar) para probar los endpoints.
+* Asegúrate de establecer el método HTTP correcto (GET, POST, PUT, DELETE).
+* Para peticiones `POST` y `PUT`, configura el `Content-Type` de la cabecera como `application/json` y envía el cuerpo de la petición en formato JSON.
+
+---
+
+Espero que esto te sea de gran utilidad para presentar tu proyecto. Si logras solucionar el problema con la visualización de Swagger, el siguiente paso sería añadir las anotaciones específicas para que la documentación interactiva muestre todos los detalles de los endpoints.
